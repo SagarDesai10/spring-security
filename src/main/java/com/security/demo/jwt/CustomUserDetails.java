@@ -1,9 +1,11 @@
 package com.security.demo.jwt;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +27,8 @@ public class CustomUserDetails implements UserDetailsService {
 		User user=userRepo.findByEmail(username.toLowerCase())
 				.orElseThrow(()-> new RuntimeException("User not found"));
 		
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), null);
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
+				Arrays.asList(new SimpleGrantedAuthority("ROLE_"+user.getRole().toString())));
 	}
 
 }
