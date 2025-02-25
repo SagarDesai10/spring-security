@@ -2,6 +2,7 @@ package com.security.demo.entity;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.uuid.Generators;
 import com.security.demo.enums.Roles;
 
 import jakarta.persistence.Column;
@@ -20,7 +21,7 @@ import lombok.Data;
 public class User {
 	
 	@Id
-	private String id;
+	private String id=Generators.timeBasedEpochGenerator().generate().toString();
 
 	@Column(name="name")
 	private String name;
