@@ -49,12 +49,6 @@ public class GlobalExceptionHandler extends BaseController<Object> {
 		return error("Bad Authentication", HttpStatus.UNAUTHORIZED, webRequest.getDescription(false));
 	}
 
-	@ExceptionHandler(UnauthorizedException.class)
-	public ResponseEntity<ErrorResponse<Object>> handleUnauthorizedException(UnauthorizedException exception,
-			WebRequest webRequest) {
-		logger.error("Exception occured : {}", exception.getMessage());
-		return error(exception.getMessage(), HttpStatus.UNAUTHORIZED, webRequest.getDescription(false));
-	}
 
 	@ExceptionHandler(ResourceAccessException.class)
 	public ResponseEntity<ErrorResponse<Object>> handleResourceAccessException(ResourceAccessException exception,
@@ -63,12 +57,6 @@ public class GlobalExceptionHandler extends BaseController<Object> {
 		return error(exception.getMessage(), HttpStatus.UNAUTHORIZED, webRequest.getDescription(false));
 	}
 
-	@ExceptionHandler(InvalidLoginException.class)
-	public ResponseEntity<ErrorResponse<Object>> handleInvalidLoginException(InvalidLoginException exception,
-			WebRequest webRequest) {
-		logger.error("Exception occured : {}", exception.getMessage());
-		return error(exception.getMessage(), HttpStatus.UNAUTHORIZED, webRequest.getDescription(false));
-	}
 
 	@ExceptionHandler(SignatureException.class)
 	public ResponseEntity<ErrorResponse<Object>> handleSignatureException(AuthenticationException exception,
