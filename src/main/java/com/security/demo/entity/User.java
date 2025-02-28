@@ -2,6 +2,8 @@ package com.security.demo.entity;
 
 import java.sql.Timestamp;
 
+import org.hibernate.envers.Audited;
+
 import com.fasterxml.uuid.Generators;
 import com.security.demo.enums.Roles;
 
@@ -21,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="user")
+@Audited
 @Builder
 public class User {
 	
