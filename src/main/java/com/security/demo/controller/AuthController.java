@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.security.demo.annotation.LogAspect;
 import com.security.demo.controller.common.BaseController;
 import com.security.demo.dto.LoginDTO;
 import com.security.demo.dto.UserRegisterDTO;
 import com.security.demo.dto.response.SuccessResponse;
 import com.security.demo.service.AuthService;
+import com.security.demo.utils.StringLiterals;
 
 import io.jsonwebtoken.security.InvalidKeyException;
 import jakarta.validation.Valid;
@@ -26,18 +28,16 @@ public class AuthController extends BaseController<Object> {
 	@Autowired
 	private AuthService authService;
 	
-	private final String OK="OK";
-
-	
+	@LogAspect(type=StringLiterals.USER_CREATE)
 	@PostMapping("/register")
 	public ResponseEntity<SuccessResponse<Object>> registerUser(@Valid @RequestBody UserRegisterDTO userRegister)
 	{
-		return success(authService.registerUser(userRegister),OK,HttpStatus.OK);
+		return success(authService.registerUser(userRegister),StringLiterals.OK,HttpStatus.OK);
 	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<SuccessResponse<Object>> loginUser(@Valid @RequestBody LoginDTO loginRequest) throws InvalidKeyException, JsonProcessingException
 	{
-		return success(authService.loginUser(loginRequest),OK,HttpStatus.OK);
+		return success(authService.loginUser(loginRequest),StringLiterals.OK,HttpStatus.OK);
 	}
 }
