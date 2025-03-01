@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    
+    <property name="LOGS"
+              value="/C/d/logs/spring-sec-logs"/>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %X{traceId:-},%X{spanId:-} | %msg%n
+                <!--                %d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z', UTC} [%thread]-->
+                <!--                %level%logger{26}-X-Correlation-Id=%X{X-Correlation-Id:-} | %msg%n%ex-->
+
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="AdminService"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/Auth-service.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1} [%t] %m%n</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOGS}/archived/Auth-service-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <appender name="AuthService"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/Auth-service-impl.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1} [%t] %m%n</Pattern>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOGS}/archived/Auth-service-impl-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name="SpringSecError"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/Spring-sec-error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1} [%t] %m%n</Pattern>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOGS}/archived/Spring-sec-error-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="SpringSecRequestResponse"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/Spring-sec-request-response.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1} [%t] %m%n</Pattern>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOGS}/archived/Spring-sec-request-response-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="AdminService"/>
+        <appender-ref ref="Console"/>
+    </root>
+
+
+    <logger name="com.security" level="info" additivity="false">
+        <appender-ref ref="SpringSecError"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <logger name="com.security.demo.service.impl.AuthServiceImpl" level="info" additivity="false">
+        <appender-ref ref="AuthService"/>
+        <appender-ref ref="SpringSecError"/>
+        <appender-ref ref="Console"/>
+
+    </logger>
+
+    <logger name="com.security.demo.service.impl.AdminService" level="info" additivity="false">
+        <appender-ref ref="AdminService"/>
+        <appender-ref ref="SpringSecError"/>
+        <appender-ref ref="Console"/>
+
+    </logger>
+
+    <logger name="com.security.demo.config.AspectLoggerConfig" level="info" additivity="false">
+        <appender-ref ref="SpringSecRequestResponse"/>
+        <appender-ref ref="SpringSecError"/>
+        <appender-ref ref="Console"/>
+
+    </logger>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="com.netflix.eureka" level="WARN"/>
+    <logger name="com.netflix.discovery" level="WARN"/>
+    <logger name="com.netflix" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+
+</configuration>
