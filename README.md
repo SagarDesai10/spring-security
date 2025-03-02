@@ -1,0 +1,11 @@
+- Spring security with authentication and authorization using JWT token
+- Swagger
+- Entity auditing using hibernate envers
+- Aspect oriented programming
+- Mapper
+- SqlResultet mapping
+- Logback
+- Resilience4j
+- Eureka client
+- Export data as csv,pdf and xlx
+- Specification , criteria api
