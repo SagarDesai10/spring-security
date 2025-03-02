@@ -16,5 +16,6 @@ public class StringLiterals implements Serializable {
     public static final String STRING_PAGE = "0";
     public static final Integer SIZE = 20;
     public static final String STRING_SIZE = "20";
+    public static final String Timestamp="Timestamp";
 
 }
